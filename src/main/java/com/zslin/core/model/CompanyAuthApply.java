@@ -67,6 +67,14 @@ public class CompanyAuthApply {
     @Column(name = "company_no")
     private String companyNo;
 
+    /** 法人姓名 */
+    @Column(name = "boss_name")
+    private String bossName;
+
+    /** 注册资金 */
+    /*@Column(name = "company_money")
+    private String companyMoney;*/
+
     /** 公司成立日期 */
     @Column(name = "company_start_date")
     private String companyStartDate;
@@ -74,6 +82,32 @@ public class CompanyAuthApply {
     /** 公司营业期限 */
     @Column(name = "company_end_date")
     private String companyEndDate;
+
+    /** 表单ID */
+    private String formid;
+
+    public String getFormid() {
+        return formid;
+    }
+
+    public void setFormid(String formid) {
+        this.formid = formid;
+    }
+/*public String getCompanyMoney() {
+        return companyMoney;
+    }
+
+    public void setCompanyMoney(String companyMoney) {
+        this.companyMoney = companyMoney;
+    }*/
+
+    public String getBossName() {
+        return bossName;
+    }
+
+    public void setBossName(String bossName) {
+        this.bossName = bossName;
+    }
 
     public Integer getId() {
         return id;

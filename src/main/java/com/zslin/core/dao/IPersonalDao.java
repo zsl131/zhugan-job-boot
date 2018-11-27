@@ -24,6 +24,12 @@ public interface IPersonalDao extends BaseRepository<Personal, Integer>, JpaSpec
     @Transactional
     void updateCheckIdCardByOpenid(String val, String openid);
 
+    //checkCompany
+    @Query("UPDATE Personal p SET p.checkCompany=?1 WHERE p.openid=?2")
+    @Modifying
+    @Transactional
+    void updateCheckCompanyByOpenid(String val, String openid);
+
     @Query("UPDATE Personal p SET p.phone=?1, p.checkPhone='1' WHERE p.openid=?2")
     @Modifying
     @Transactional

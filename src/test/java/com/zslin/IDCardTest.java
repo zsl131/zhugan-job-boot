@@ -1,6 +1,10 @@
 package com.zslin;
 
+import com.zslin.baidu.dto.LicenseDto;
+import com.zslin.baidu.tools.IDCardTools;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -12,6 +16,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("zsl")
 public class IDCardTest {
+
+    @Autowired
+    private IDCardTools idCardTools;
+
+    @Test
+    public void test04() {
+        String path = "D:/temp/7.jpg";
+        LicenseDto dto1 = idCardTools.readLicenseToDto(path);
+        System.out.println("=============7=========");
+        System.out.println(dto1);
+
+        System.out.println("=============8=========");
+        System.out.println(idCardTools.readLicenseToDto("D:/temp/8.jpg"));
+
+        System.out.println("=============9=========");
+        System.out.println(idCardTools.readLicenseToDto("D:/temp/9.jpg"));
+
+        System.out.println("=============10=========");
+        System.out.println(idCardTools.readLicenseToDto("D:/temp/10.jpg"));
+    }
 
     /*@Test
     public void test03() {

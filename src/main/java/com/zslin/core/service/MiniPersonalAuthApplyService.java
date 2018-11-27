@@ -27,9 +27,6 @@ public class MiniPersonalAuthApplyService {
     private IPersonalAuthApplyDao personalAuthApplyDao;
 
     @Autowired
-    private PersonalService personalService;
-
-    @Autowired
     private IPersonalDao personalDao;
 
     @AuthAnnotation(name = "提交个人认证信息", code = "MINI-C11", params = "{openid:'',nickname:'',headimg:'',name:'',identity:'',sex:'',address:'',frontPic:'',backPic:'',handPic:'',formid:''}")

@@ -1,6 +1,7 @@
 package com.zslin.basic.api.controller;
 
 import com.zslin.baidu.dto.IDCardDto;
+import com.zslin.baidu.dto.LicenseDto;
 import com.zslin.baidu.tools.IDCardTools;
 import com.zslin.basic.tools.ConfigTools;
 import com.zslin.basic.tools.NormalTools;
@@ -57,6 +58,9 @@ public class UploadController {
                         String formData = request.getParameter("formData");
                         if(formData!=null && "idCard".equalsIgnoreCase(formData)) { //是上传的身份证号，需要进行处理
                             IDCardDto dto = idCardTools.readToDto2(outFile.getPath());
+                            result.extra(dto);
+                        } else if(formData!=null && "license".equalsIgnoreCase(formData)) { //如果是上传营业执照，需要进行处理
+                            LicenseDto dto = idCardTools.readLicenseToDto(outFile.getPath());
                             result.extra(dto);
                         }
                     }

@@ -1,6 +1,7 @@
 package com.zslin.baidu.tools;
 
 import com.zslin.baidu.dto.IDCardDto;
+import com.zslin.baidu.dto.LicenseDto;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,51 @@ public class IDCardTools {
             IDCardDto dto = new IDCardDto(name,sex,nation,birthday,address,cardNo);
 
             useRecordTools.addRecord("idcard", "身份证识别", jsonObj.toString()); //添加调用记录
+            return dto;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public LicenseDto readLicenseToDto(String filePath) {
+        // 营业执照识别url
+        String idcardIdentificate = "https://aip.baidubce.com/rest/2.0/ocr/v1/business_license";
+        try {
+            byte[] imgData = FileUtil.readFileByBytes(filePath);
+            String imgStr = Base64Util.encode(imgData);
+            // 识别身份证正面id_card_side=front;识别身份证背面id_card_side=back;
+            String params = URLEncoder.encode("image", "UTF-8") + "="
+                    + URLEncoder.encode(imgStr, "UTF-8");
+            /**
+             * 线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
+             */
+            String accessToken = AuthTokenService.getAuth();
+//            System.out.println("====="+accessToken);
+            String result = HttpUtil.post(idcardIdentificate, accessToken, params);
+            //System.out.println(result);
+            //"单位名称": {"words": "献县创佳环卫设备有限公司"}, "法人": {"words": "王聪"}, "成立日期": {"words": "2016年03月03日"}, "有效期": {"words": "2036年03月02日"}}}
+            JSONObject jsonObj = new JSONObject(result).getJSONObject("words_result");
+            String address = null;
+            try { address = jsonObj.getJSONObject("地址").getString("words"); } catch (Exception e) { }
+            String money = null;
+            try { money = jsonObj.getJSONObject("注册资本").getString("words"); } catch (JSONException e) { }
+            String companyCode = null;
+            try { companyCode = jsonObj.getJSONObject("社会信用代码").getString("words"); } catch (JSONException e) { }
+            if(companyCode==null || "".equals(companyCode) || "无".equals(companyCode.trim())) {
+                try { companyCode = jsonObj.getJSONObject("证件编号").getString("words"); } catch (JSONException e) { }
+            }
+            String companyName = null;
+            try { companyName = jsonObj.getJSONObject("单位名称").getString("words"); } catch (JSONException e) { }
+            String boss = null;
+            try { boss = jsonObj.getJSONObject("法人").getString("words"); } catch (JSONException e) { }
+            String startDate = null;
+            try { startDate = jsonObj.getJSONObject("成立日期").getString("words"); } catch (Exception e) { }
+            String endDate = null;
+            try { endDate = jsonObj.getJSONObject("有效期").getString("words"); } catch (Exception e) { }
+            LicenseDto dto = new LicenseDto(money, companyCode, companyName, boss, startDate, endDate, address);
+
+            useRecordTools.addRecord("business_license", "营业执照识别", jsonObj.toString()); //添加调用记录
             return dto;
         } catch (Exception e) {
             e.printStackTrace();
