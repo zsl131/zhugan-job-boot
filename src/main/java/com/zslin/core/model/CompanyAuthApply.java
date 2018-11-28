@@ -86,6 +86,50 @@ public class CompanyAuthApply {
     /** 表单ID */
     private String formid;
 
+    @Column(name = "verify_date")
+    private String verifyDate;
+
+    @Column(name = "verify_time")
+    private String verifyTime;
+
+    @Column(name = "verify_long")
+    private Long verifyLong;
+
+    @Column(name = "verify_user")
+    private String verifyUser;
+
+    public String getVerifyDate() {
+        return verifyDate;
+    }
+
+    public void setVerifyDate(String verifyDate) {
+        this.verifyDate = verifyDate;
+    }
+
+    public String getVerifyTime() {
+        return verifyTime;
+    }
+
+    public void setVerifyTime(String verifyTime) {
+        this.verifyTime = verifyTime;
+    }
+
+    public Long getVerifyLong() {
+        return verifyLong;
+    }
+
+    public void setVerifyLong(Long verifyLong) {
+        this.verifyLong = verifyLong;
+    }
+
+    public String getVerifyUser() {
+        return verifyUser;
+    }
+
+    public void setVerifyUser(String verifyUser) {
+        this.verifyUser = verifyUser;
+    }
+
     public String getFormid() {
         return formid;
     }

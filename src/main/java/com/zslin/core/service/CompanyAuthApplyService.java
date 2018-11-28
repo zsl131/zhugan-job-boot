@@ -9,10 +9,9 @@ import com.zslin.basic.tools.JsonParamTools;
 import com.zslin.basic.tools.JsonTools;
 import com.zslin.basic.tools.NormalTools;
 import com.zslin.basic.tools.QueryTools;
-import com.zslin.core.dao.IPersonalAuthApplyDao;
+import com.zslin.core.dao.ICompanyAuthApplyDao;
 import com.zslin.core.dao.IPersonalDao;
-import com.zslin.core.model.Personal;
-import com.zslin.core.model.PersonalAuthApply;
+import com.zslin.core.model.CompanyAuthApply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,11 @@ import org.springframework.stereotype.Service;
  * Created by zsl on 2018/11/19.
  */
 @Service
-@AdminAuth(name = "个人身份认证管理", psn = "业务管理", orderNum = 3, type = "1", url = "/admin/personalAuthApply")
-public class PersonalAuthApplyService {
+@AdminAuth(name = "单位认证管理", psn = "业务管理", orderNum = 3, type = "1", url = "/admin/companyAuthApply")
+public class CompanyAuthApplyService {
 
     @Autowired
-    private IPersonalAuthApplyDao personalAuthApplyDao;
+    private ICompanyAuthApplyDao companyAuthApplyDao;
 
     @Autowired
     private IPersonalDao personalDao;
@@ -33,7 +32,7 @@ public class PersonalAuthApplyService {
     /** 列表 */
     public JsonResult list(String params) {
         QueryListDto qld = QueryTools.buildQueryListDto(params);
-        Page<PersonalAuthApply> res = personalAuthApplyDao.findAll(QueryTools.getInstance().buildSearch(qld.getConditionDtoList()),
+        Page<CompanyAuthApply> res = companyAuthApplyDao.findAll(QueryTools.getInstance().buildSearch(qld.getConditionDtoList()),
                 SimplePageBuilder.generate(qld.getPage(), qld.getSize(), SimpleSortBuilder.generateSort(qld.getSort())));
 
         return JsonResult.getInstance().set("size", res.getTotalElements()).set("data", res.getContent());
@@ -45,7 +44,7 @@ public class PersonalAuthApplyService {
         Integer id = Integer.parseInt(JsonTools.getJsonParam(params, "id"));
         String reason = JsonTools.getJsonParam(params, "reason");
         String username = JsonParamTools.getHeaderField(params, "username"); //登陆用户的用户名
-        PersonalAuthApply paa = personalAuthApplyDao.findOne(id);
+        CompanyAuthApply paa = companyAuthApplyDao.findOne(id);
         paa.setReason(reason);
         paa.setStatus(status);
         paa.setVerifyDate(NormalTools.curDate());
@@ -53,17 +52,10 @@ public class PersonalAuthApplyService {
         paa.setVerifyLong(System.currentTimeMillis());
         paa.setVerifyUser(username);
         if("1".equals(status)) { //如果是通过，修改Personal属性
-//            personalDao.updateCheckIdCardByOpenid("1", paa.getOpenid());
-            Personal p = personalDao.findByOpenid(paa.getOpenid());
-            p.setCheckIdcard("1");
-            p.setAddress(paa.getAddress());
-            p.setIdentity(paa.getIdentity());
-            p.setName(paa.getName());
-            p.setSex(paa.getSex());
-            p.setType("1"); //人才用户
-            personalDao.save(p);
+            personalDao.updateCheckCompanyByOpenid("1", paa.getOpenid());
+            personalDao.updateType("2", paa.getOpenid()); //单位用户
         } else if("2".equals(status)) { //驳回
-            personalDao.updateCheckIdCardByOpenid("3", paa.getOpenid());
+            personalDao.updateCheckCompanyByOpenid("3", paa.getOpenid());
         }
 
         //TODO 通过用户

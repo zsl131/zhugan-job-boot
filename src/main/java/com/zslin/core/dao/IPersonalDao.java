@@ -18,6 +18,11 @@ public interface IPersonalDao extends BaseRepository<Personal, Integer>, JpaSpec
 
     Personal findByIdentity(String identity);
 
+    @Query("UPDATE Personal p SET p.type=?1 WHERE p.openid=?2")
+    @Modifying
+    @Transactional
+    void updateType(String type, String openid);
+
     //checkIdcard
     @Query("UPDATE Personal p SET p.checkIdcard=?1 WHERE p.openid=?2")
     @Modifying
