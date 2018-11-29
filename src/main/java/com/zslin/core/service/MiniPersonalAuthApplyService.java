@@ -61,7 +61,8 @@ public class MiniPersonalAuthApplyService {
 
     //初始化Personal
     private void initPersonal(PersonalAuthApply paa) {
-        Personal p = personalDao.findByOpenid(paa.getOpenid());
+        String openid = paa.getOpenid();
+        Personal p = personalDao.findByOpenid(openid);
         if(p==null) {
             p = new Personal();
             p.setCreateLong(System.currentTimeMillis());
@@ -69,7 +70,7 @@ public class MiniPersonalAuthApplyService {
             p.setCreateTime(NormalTools.curDatetime());
             p.setHeadimg(paa.getHeadimg());
             p.setNickname(paa.getNickname());
-            p.setOpenid(paa.getOpenid());
+            p.setOpenid(openid);
             personalDao.save(p);
         }
     }

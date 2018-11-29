@@ -43,6 +43,10 @@ public class Personal {
     /** 个人标签 */
     private String tags;
 
+    /** 个人标签的ID */
+    @Column(name = "tags_ids")
+    private String tagsIds;
+
     /** 是否手机认证，0-未认证；1-已认证；2-审核中；3-被驳回 */
     @Column(name = "check_phone")
     private String checkPhone = "0";
@@ -74,6 +78,14 @@ public class Personal {
 
     @Column(name = "create_long")
     private Long createLong;
+
+    public String getTagsIds() {
+        return tagsIds;
+    }
+
+    public void setTagsIds(String tagsIds) {
+        this.tagsIds = tagsIds;
+    }
 
     public String getCheckCompany() {
         return checkCompany;

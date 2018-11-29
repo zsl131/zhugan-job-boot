@@ -11,7 +11,10 @@ import com.zslin.basic.tools.NormalTools;
 import com.zslin.basic.tools.QueryTools;
 import com.zslin.core.dao.ICompanyAuthApplyDao;
 import com.zslin.core.dao.IPersonalDao;
+import com.zslin.core.dao.IWalletDao;
 import com.zslin.core.model.CompanyAuthApply;
+import com.zslin.core.model.PersonalAuthApply;
+import com.zslin.core.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class CompanyAuthApplyService {
 
     @Autowired
     private IPersonalDao personalDao;
+
+    @Autowired
+    private IWalletDao walletDao;
 
     /** 列表 */
     public JsonResult list(String params) {
@@ -54,11 +60,24 @@ public class CompanyAuthApplyService {
         if("1".equals(status)) { //如果是通过，修改Personal属性
             personalDao.updateCheckCompanyByOpenid("1", paa.getOpenid());
             personalDao.updateType("2", paa.getOpenid()); //单位用户
+            initWallet(paa); //设置钱包
         } else if("2".equals(status)) { //驳回
             personalDao.updateCheckCompanyByOpenid("3", paa.getOpenid());
         }
 
         //TODO 通过用户
         return JsonResult.success("操作成功");
+    }
+
+    /**  */
+    private void initWallet(CompanyAuthApply caa) {
+        String openid = caa.getOpenid();
+        Wallet w = walletDao.findByOpenid(openid);
+        if(w==null) {
+            w = new Wallet();
+        }
+        w.setCompanyName(caa.getCompanyName());
+        w.setCompanyNo(caa.getCompanyNo());
+        walletDao.save(w);
     }
 }

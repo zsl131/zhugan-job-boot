@@ -11,8 +11,10 @@ import com.zslin.basic.tools.NormalTools;
 import com.zslin.basic.tools.QueryTools;
 import com.zslin.core.dao.IPersonalAuthApplyDao;
 import com.zslin.core.dao.IPersonalDao;
+import com.zslin.core.dao.IWalletDao;
 import com.zslin.core.model.Personal;
 import com.zslin.core.model.PersonalAuthApply;
+import com.zslin.core.model.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class PersonalAuthApplyService {
 
     @Autowired
     private IPersonalDao personalDao;
+
+    @Autowired
+    private IWalletDao walletDao;
 
     /** 列表 */
     public JsonResult list(String params) {
@@ -62,11 +67,26 @@ public class PersonalAuthApplyService {
             p.setSex(paa.getSex());
             p.setType("1"); //人才用户
             personalDao.save(p);
+
+            initWallet(paa); //初始化钱包
         } else if("2".equals(status)) { //驳回
             personalDao.updateCheckIdCardByOpenid("3", paa.getOpenid());
         }
 
         //TODO 通过用户
         return JsonResult.success("操作成功");
+    }
+
+    /**  */
+    private void initWallet(PersonalAuthApply paa) {
+        String openid = paa.getOpenid();
+        Wallet w = walletDao.findByOpenid(openid);
+        if(w==null) {
+            w = new Wallet();
+        }
+        w.setIdentity(paa.getIdentity());
+        w.setName(paa.getName());
+        w.setOpenid(openid);
+        walletDao.save(w);
     }
 }
