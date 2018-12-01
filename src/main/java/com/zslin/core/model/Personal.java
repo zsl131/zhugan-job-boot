@@ -67,6 +67,10 @@ public class Personal {
     @Column(name = "has_video")
     private String hasVideo = "0";
 
+    /** 视频地址 */
+    @Column(name = "video_url")
+    private String videoUrl;
+
     /** 用户类型，0-未识别；1-人才用户；2-用人单位；10-平台管理员 */
     private String type = "0";
 
@@ -78,6 +82,14 @@ public class Personal {
 
     @Column(name = "create_long")
     private Long createLong;
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
 
     public String getTagsIds() {
         return tagsIds;

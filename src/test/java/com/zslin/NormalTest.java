@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.qq.weixin.mp.aes.MiniProgramTools;
 import com.zslin.basic.tools.SecurityUtil;
 import com.zslin.core.tools.DivisionTools;
+import com.zslin.qiniu.tools.QiniuUploadTools;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
@@ -25,6 +27,15 @@ public class NormalTest {
 
     @Autowired
     private DivisionTools divisionTools;
+
+    @Autowired
+    private QiniuUploadTools qiniuUploadTools;
+
+    @Test
+    public void test06() throws Exception {
+        FileInputStream is = new FileInputStream(new File("D:/temp/test.mp4"));
+        qiniuUploadTools.upload(is, "15925061256.mp4");
+    }
 
     @Test
     public void test05() {
