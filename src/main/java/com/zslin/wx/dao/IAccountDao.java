@@ -37,4 +37,9 @@ public interface IAccountDao extends BaseRepository<Account, Integer>, JpaSpecif
     @Modifying
     @Transactional
     void updateStatus(String openid, String status);
+
+    @Query("UPDATE Account a SET a.headimg=?1 WHERE a.openid=?2")
+    @Modifying
+    @Transactional
+    void updateHeadimg(String headimg, String openid);
 }

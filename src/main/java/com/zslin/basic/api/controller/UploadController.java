@@ -5,6 +5,7 @@ import com.zslin.baidu.dto.LicenseDto;
 import com.zslin.baidu.tools.IDCardTools;
 import com.zslin.basic.tools.ConfigTools;
 import com.zslin.basic.tools.NormalTools;
+import com.zslin.core.tools.HeadimgTools;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,10 +33,13 @@ public class UploadController {
     private ConfigTools configTools;
 
     private static final String PATH_PRE = "/wangeditor/images";
-    private static final String UPLOAD_PATH_PRE = "/publicFile/upload";
+    private static final String UPLOAD_PATH_PRE = "/upload";
 
     @Autowired
     private IDCardTools idCardTools;
+
+    @Autowired
+    private HeadimgTools headimgTools;
 
     @RequestMapping(value="image")
     public UploadResult uploadFiles(HttpServletRequest request, @RequestParam("files") MultipartFile[] files) {
@@ -62,6 +66,8 @@ public class UploadController {
                         } else if(formData!=null && "license".equalsIgnoreCase(formData)) { //如果是上传营业执照，需要进行处理
                             LicenseDto dto = idCardTools.readLicenseToDto(outFile.getPath());
                             result.extra(dto);
+                        } else if(formData!=null && "headimg".equalsIgnoreCase(formData)) { //如果是上传头像
+                            headimgTools.updateHeadimg(request.getParameter("openid"), result.getData().get(0)); //删除
                         }
                     }
                 } catch (IOException e) {
