@@ -28,6 +28,14 @@ public class MiniPersonalService {
     @Autowired
     private IAccountDao accountDao;
 
+    @AuthAnnotation(name = "小程序设置工作状态", code = "MINI-C04", params = "{openid:'', status:''}")
+    public JsonResult modifyWorkStatus(String params) {
+        String openid = JsonTools.getJsonParam(params, "openid");
+        String status = JsonTools.getJsonParam(params, "status");
+        personalDao.updateWorkStatus(status, openid);
+        return JsonResult.success("设置成功");
+    }
+
     @AuthAnnotation(name = "小程序绑定手机号码", code = "MINI-C03", params = "{openid:'', phone:''}")
     public JsonResult bindPhone(String params) {
         String phone = JsonTools.getJsonParam(params, "phone");
