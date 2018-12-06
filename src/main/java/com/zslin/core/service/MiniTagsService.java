@@ -5,6 +5,7 @@ import com.zslin.auth.annotation.HasAuthAnnotation;
 import com.zslin.basic.dto.JsonResult;
 import com.zslin.basic.tools.JsonTools;
 import com.zslin.core.dao.IPersonalDao;
+import com.zslin.core.dao.IResumeDao;
 import com.zslin.core.dao.ITagsDao;
 import com.zslin.core.model.Personal;
 import com.zslin.core.model.Tags;
@@ -27,6 +28,9 @@ public class MiniTagsService {
 
     @Autowired
     private IPersonalDao personalDao;
+
+    @Autowired
+    private IResumeDao resumeDao;
 
     @AuthAnnotation(name = "小程序标签列表", code = "MINI-CT01", params = "{openid:''}")
     public JsonResult list(String params) {
@@ -52,6 +56,7 @@ public class MiniTagsService {
             if(tags.endsWith(",")) {tags = tags.substring(0, tags.length()-1);}
             if(tagsIds.endsWith(",")) {tagsIds = tagsIds.substring(0, tagsIds.length()-1);}
             personalDao.updateTags(tags, tagsIds, openid);
+            resumeDao.updateTags(tags, openid); //修改简历中的标签
         } catch (Exception e) {
             e.printStackTrace();
             return JsonResult.error(e.getMessage());

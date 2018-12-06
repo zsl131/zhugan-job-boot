@@ -8,6 +8,7 @@ import com.zslin.basic.dto.JsonResult;
 import com.zslin.basic.tools.JsonTools;
 import com.zslin.basic.tools.NormalTools;
 import com.zslin.core.dao.IPersonalDao;
+import com.zslin.core.dao.IResumeDao;
 import com.zslin.core.model.Personal;
 import com.zslin.wx.dao.IAccountDao;
 import com.zslin.wx.model.Account;
@@ -28,11 +29,15 @@ public class MiniPersonalService {
     @Autowired
     private IAccountDao accountDao;
 
+    @Autowired
+    private IResumeDao resumeDao;
+
     @AuthAnnotation(name = "小程序设置工作状态", code = "MINI-C04", params = "{openid:'', status:''}")
     public JsonResult modifyWorkStatus(String params) {
         String openid = JsonTools.getJsonParam(params, "openid");
         String status = JsonTools.getJsonParam(params, "status");
         personalDao.updateWorkStatus(status, openid);
+        resumeDao.updateStatus("1".equals(status)?"1":"0", openid); //修改简历的状态
         return JsonResult.success("设置成功");
     }
 

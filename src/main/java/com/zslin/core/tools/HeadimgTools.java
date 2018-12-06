@@ -2,6 +2,7 @@ package com.zslin.core.tools;
 
 import com.zslin.basic.tools.ConfigTools;
 import com.zslin.core.dao.IPersonalDao;
+import com.zslin.core.dao.IResumeDao;
 import com.zslin.core.model.Personal;
 import com.zslin.wx.dao.IAccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class HeadimgTools {
     @Autowired
     private IAccountDao accountDao;
 
+    @Autowired
+    private IResumeDao resumeDao;
+
     public void updateHeadimg(String openid, String headimg) {
 //        System.out.println("openid::"+openid);
 //        System.out.println("headimg::" + headimg);
@@ -35,6 +39,7 @@ public class HeadimgTools {
             p.setHeadimg(headimg);
             personalDao.save(p);
             accountDao.updateHeadimg(headimg, openid);
+            resumeDao.updateHeadimg(headimg, openid);
 
             File f = new File(configTools.getUploadPath(false) + oldImg);
             System.out.println(f.getAbsolutePath());

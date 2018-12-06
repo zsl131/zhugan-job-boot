@@ -83,6 +83,30 @@ public class Personal {
     @Column(name = "create_long")
     private Long createLong;
 
+    /** 期望工作区域代码 */
+    @Column(name = "area_code")
+    private String areaCode;
+
+    /** 期望工作区域名称 */
+    @Column(name = "area_name")
+    private String areaName;
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
     public String getVideoUrl() {
         return videoUrl;
     }

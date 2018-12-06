@@ -54,4 +54,9 @@ public interface IPersonalDao extends BaseRepository<Personal, Integer>, JpaSpec
     @Modifying
     @Transactional
     void updateWorkStatus(String status, String openid);
+
+    @Query("UPDATE Personal p SET p.areaCode=?1, p.areaName=?2 WHERE p.openid=?3")
+    @Modifying
+    @Transactional
+    void updateArea(String areaCode, String areaName, String openid);
 }
