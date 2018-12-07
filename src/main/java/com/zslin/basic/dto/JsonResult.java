@@ -59,6 +59,11 @@ public class JsonResult {
         return that;
     }
 
+    public static JsonResult success() {
+        JsonResult that = getInstance("获取成功");
+        return that;
+    }
+
     public static JsonResult succ(Object obj) {
         JsonResult that = getInstance().set("obj", obj);
         return that;

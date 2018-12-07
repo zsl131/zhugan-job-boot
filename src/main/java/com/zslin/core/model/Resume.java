@@ -49,12 +49,90 @@ public class Resume {
 
     private String remark;
 
-    /** 状态，是否显示 */
+    /** 状态，是否显示，0-不显示；1-显示；2-审核中；3-驳回 */
     private String status;
+
+    /** 驳回原因 */
+    @Column(name = "reject_reason")
+    private String rejectReason;
 
     /** 被查看次数 */
     @Column(name = "read_count")
     private Integer readCount = 0;
+
+    @Column(name = "create_date")
+    private String createDate;
+
+    @Column(name = "create_time")
+    private String createTime;
+
+    @Column(name = "create_long")
+    private Long createLong;
+
+    @Column(name = "update_time")
+    private String updateTime;
+
+    @Column(name = "update_date")
+    private String updateDate;
+
+    @Column(name = "update_long")
+    private Long updateLong;
+
+    public String getRejectReason() {
+        return rejectReason;
+    }
+
+    public void setRejectReason(String rejectReason) {
+        this.rejectReason = rejectReason;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public Long getCreateLong() {
+        return createLong;
+    }
+
+    public void setCreateLong(Long createLong) {
+        this.createLong = createLong;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Long getUpdateLong() {
+        return updateLong;
+    }
+
+    public void setUpdateLong(Long updateLong) {
+        this.updateLong = updateLong;
+    }
 
     public String getStatus() {
         return status;
