@@ -38,4 +38,14 @@ public interface IResumeDao extends BaseRepository<Resume, Integer>, JpaSpecific
     @Modifying
     @Transactional
     void updateArea(String areaCode, String areaName, String openid);
+
+    @Query("UPDATE Resume r SET r.eduId=?1, r.eduName=?2 WHERE r.openid=?3")
+    @Modifying
+    @Transactional
+    void updateEdu(Integer eduId, String eduName, String openid);
+
+    @Query("UPDATE Resume r SET r.status=?1, r.rejectReason=?2 WHERE r.id=?3")
+    @Modifying
+    @Transactional
+    void updateVerify(String status, String reason, Integer id);
 }

@@ -78,6 +78,42 @@ public class Resume {
     @Column(name = "update_long")
     private Long updateLong;
 
+    /** 学历ID */
+    @Column(name = "edu_id")
+    private Integer eduId;
+
+    /** 学历名称 */
+    @Column(name = "edu_name")
+    private String eduName;
+
+    /** 修改次数 */
+    @Column(name = "update_count")
+    private Integer updateCount = 1;
+
+    public Integer getUpdateCount() {
+        return updateCount;
+    }
+
+    public void setUpdateCount(Integer updateCount) {
+        this.updateCount = updateCount;
+    }
+
+    public Integer getEduId() {
+        return eduId;
+    }
+
+    public void setEduId(Integer eduId) {
+        this.eduId = eduId;
+    }
+
+    public String getEduName() {
+        return eduName;
+    }
+
+    public void setEduName(String eduName) {
+        this.eduName = eduName;
+    }
+
     public String getRejectReason() {
         return rejectReason;
     }

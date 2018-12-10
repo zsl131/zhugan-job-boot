@@ -30,7 +30,8 @@ public class MiniResumeService {
     public JsonResult findByOpenid(String params) {
         String openid = JsonTools.getJsonParam(params, "openid");
         Resume resume = resumeDao.findByOpenid(openid);
-        return JsonResult.success().set("obj", resume);
+        Personal p = personalDao.findByOpenid(openid);
+        return JsonResult.success().set("obj", resume).set("personal", p);
     }
 
     @AuthAnnotation(name = "小程序保存用户简历", code = "MINI-C42", params = "{openid:'', workIds:'', workNames:'', status:'', remark:''}")
@@ -57,6 +58,8 @@ public class MiniResumeService {
             r.setAreaCode(p.getAreaCode());
             r.setTags(p.getTags());
             r.setReadCount(0);
+        } else {
+            r.setUpdateCount(r.getUpdateCount()+1);
         }
         r.setWorkIds(workIds);
         r.setWorkNames(workNames);
@@ -67,5 +70,17 @@ public class MiniResumeService {
         r.setUpdateLong(System.currentTimeMillis());
         resumeDao.save(r);
         return JsonResult.success("保存成功");
+    }
+
+    @AuthAnnotation(name = "小程序设置简历状态", code = "MINI-C43", params = "{openid:'', status:''}")
+    public JsonResult updateStatus(String params) {
+        try {
+            String openid = JsonTools.getJsonParam(params, "openid");
+            String status = JsonTools.getJsonParam(params, "status");
+            resumeDao.updateStatus(status, openid);
+            return JsonResult.success("设置成功");
+        } catch (Exception e) {
+            return JsonResult.error(e.getMessage());
+        }
     }
 }

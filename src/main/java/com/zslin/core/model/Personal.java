@@ -91,6 +91,30 @@ public class Personal {
     @Column(name = "area_name")
     private String areaName;
 
+    /** 学历ID */
+    @Column(name = "edu_id")
+    private Integer eduId;
+
+    /** 学历名称 */
+    @Column(name = "edu_name")
+    private String eduName;
+
+    public Integer getEduId() {
+        return eduId;
+    }
+
+    public void setEduId(Integer eduId) {
+        this.eduId = eduId;
+    }
+
+    public String getEduName() {
+        return eduName;
+    }
+
+    public void setEduName(String eduName) {
+        this.eduName = eduName;
+    }
+
     public String getAreaCode() {
         return areaCode;
     }
