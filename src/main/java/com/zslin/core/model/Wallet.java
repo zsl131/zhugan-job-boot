@@ -18,7 +18,7 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    /** 个人的查看权限次数 */
+    /** 个人的查看权限次数,个人查看企业招聘信息 */
     @Column(name = "personal_view_count")
     private Integer personalViewCount = 0;
 
@@ -26,7 +26,7 @@ public class Wallet {
     @Column(name = "personal_refresh_count")
     private Integer personalRefreshCount = 0;
 
-    /** 单位的查看权限次数 */
+    /** 单位的查看权限次数，单位查看个人简历 */
     @Column(name = "company_view_count")
     private Integer companyViewCount = 0;
 

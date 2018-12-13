@@ -34,6 +34,12 @@ public interface IResumeDao extends BaseRepository<Resume, Integer>, JpaSpecific
     @Transactional
     void updateStatus(String status, String openid);
 
+    /** 修改被收藏的次数，可能增加、可能减少 */
+    @Query(value = "UPDATE Resume r SET r.storeCount = r.storeCount+?1 WHERE r.id=?2")
+    @Modifying
+    @Transactional
+    void updateStore(Integer amount, Integer id);
+
     @Query("UPDATE Resume r SET r.areaCode=?1, r.areaName=?2 WHERE r.openid=?3")
     @Modifying
     @Transactional
@@ -48,4 +54,9 @@ public interface IResumeDao extends BaseRepository<Resume, Integer>, JpaSpecific
     @Modifying
     @Transactional
     void updateVerify(String status, String reason, Integer id);
+
+    @Query("UPDATE Resume r SET r.readCount = r.readCount + 1 WHERE r.id=?1")
+    @Modifying
+    @Transactional
+    void updateReadCount(Integer id);
 }

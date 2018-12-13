@@ -3,6 +3,8 @@ package com.zslin;
 import com.alibaba.fastjson.JSONObject;
 import com.qq.weixin.mp.aes.MiniProgramTools;
 import com.zslin.basic.tools.SecurityUtil;
+import com.zslin.core.dao.IResumeDao;
+import com.zslin.core.model.Resume;
 import com.zslin.core.tools.DivisionTools;
 import com.zslin.qiniu.tools.QiniuUploadTools;
 import org.junit.Test;
@@ -30,6 +32,32 @@ public class NormalTest {
 
     @Autowired
     private QiniuUploadTools qiniuUploadTools;
+
+    @Autowired
+    private IResumeDao resumeDao;
+
+    @Test
+    public void test07() {
+        int len = 40;
+        for(int i=0;i<len;i++) {
+            Resume r = new Resume();
+            r.setSex("1");
+            r.setUpdateCount(1);
+            r.setRemark("这里是备注信息"+i);
+            r.setStatus("1");
+            r.setAreaName("昭阳区");
+            r.setEduName("大专");
+            r.setHeadimg("/publicFile/upload/20181205/b6a17532-e76c-4403-a312-06d91dafe537.png");
+            r.setName("钟述林");
+            r.setOpenid("o7u6r5tcy9f0sC4F2DHml15N9I7g_"+i);
+            r.setPhone("159250612"+i);
+            r.setReadCount(1);
+            r.setIdentity("532127198803011115");
+            r.setTags("活泼可爱,能说会道,勤劳好学");
+            r.setWorkNames(",收银员,销售员,");
+            resumeDao.save(r);
+        }
+    }
 
     @Test
     public void test06() throws Exception {

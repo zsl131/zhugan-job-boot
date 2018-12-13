@@ -38,7 +38,7 @@ public class Production {
 
     /** 原价 */
     @Column(name = "ori_price")
-    private Float oriPirce;
+    private Float oriPrice;
 
     /** 状态，0-不启用；1-启用 */
     private String status;
@@ -50,12 +50,24 @@ public class Production {
     /** 说明 */
     private String remark;
 
-    public Float getOriPirce() {
-        return oriPirce;
+    /** 购买次数 */
+    @Column(name = "buy_count")
+    private Integer buyCount = 0;
+
+    public Integer getBuyCount() {
+        return buyCount;
     }
 
-    public void setOriPirce(Float oriPirce) {
-        this.oriPirce = oriPirce;
+    public void setBuyCount(Integer buyCount) {
+        this.buyCount = buyCount;
+    }
+
+    public Float getOriPrice() {
+        return oriPrice;
+    }
+
+    public void setOriPrice(Float oriPrice) {
+        this.oriPrice = oriPrice;
     }
 
     public String getRemark() {

@@ -29,6 +29,8 @@ public class Resume {
 
     private String phone;
 
+    private String sex;
+
     /** 投递的工作类型ID */
     @Column(name = "work_ids")
     private String workIds;
@@ -89,6 +91,26 @@ public class Resume {
     /** 修改次数 */
     @Column(name = "update_count")
     private Integer updateCount = 1;
+
+    /** 被收藏次数 */
+    @Column(name = "store_count")
+    private Integer storeCount = 0;
+
+    public Integer getStoreCount() {
+        return storeCount;
+    }
+
+    public void setStoreCount(Integer storeCount) {
+        this.storeCount = storeCount;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public Integer getUpdateCount() {
         return updateCount;

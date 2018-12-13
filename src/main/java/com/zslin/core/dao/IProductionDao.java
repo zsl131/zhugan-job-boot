@@ -3,6 +3,9 @@ package com.zslin.core.dao;
 import com.zslin.basic.repository.BaseRepository;
 import com.zslin.core.model.Production;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,4 +30,9 @@ public interface IProductionDao extends BaseRepository<Production, Integer>, Jpa
      * @return
      */
     List<Production> findByTargetUserAndTypeAndStatus(String targetUser, String type, String status);
+
+    @Query("UPDATE Production p SET p.buyCount = p.buyCount+1 WHERE p.id=?1")
+    @Modifying
+    @Transactional
+    void updateBuyCount(Integer id);
 }
