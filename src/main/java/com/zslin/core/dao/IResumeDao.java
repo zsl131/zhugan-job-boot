@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by zsl on 2018/12/6.
  */
@@ -59,4 +61,7 @@ public interface IResumeDao extends BaseRepository<Resume, Integer>, JpaSpecific
     @Modifying
     @Transactional
     void updateReadCount(Integer id);
+
+    @Query("FROM Resume r WHERE r.id in ?1")
+    List<Resume> findByIds(Integer ...ids);
 }

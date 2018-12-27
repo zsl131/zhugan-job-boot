@@ -57,4 +57,8 @@ public class JsonTools {
         }
         return result;
     }
+
+    public static String getParamOpenid(String jsonStr) {
+        return getJsonParam(jsonStr, "openid");
+    }
 }

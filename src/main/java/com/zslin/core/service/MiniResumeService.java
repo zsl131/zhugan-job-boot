@@ -15,6 +15,7 @@ import com.zslin.core.dao.IResumeStoreDao;
 import com.zslin.core.model.Personal;
 import com.zslin.core.model.Resume;
 import com.zslin.core.model.ResumeStore;
+import com.zslin.core.tools.ResumeStoreTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,24 @@ public class MiniResumeService {
     @Autowired
     private IResumeStoreDao resumeStoreDao;
 
+    @Autowired
+    private ResumeStoreTools resumeStoreTools;
+
+    @AuthAnnotation(name = "小程序取消收藏简历", code = "MINI-C49", params = "{openid:'', id:0}")
+    public JsonResult removeStore(String params) {
+        String openid = JsonTools.getParamOpenid(params);
+        Integer id = Integer.parseInt(JsonTools.getJsonParam(params, "id"));
+        resumeStoreDao.deleteByOpenidAndResumeId(openid, id);
+        return JsonResult.success("取消收藏成功");
+    }
+
     @AuthAnnotation(name = "小程序获取收藏信息", code = "MINI-C48", params = "{openid: '', page:0}")
     public JsonResult listStore(String params) {
         QueryListDto qld = QueryTools.buildQueryListDto(params);
         Page<ResumeStore> res = resumeStoreDao.findAll(QueryTools.getInstance().buildSearch(qld.getConditionDtoList()),
                 SimplePageBuilder.generate(qld.getPage(), qld.getSize(), SimpleSortBuilder.generateSort(qld.getSort())));
 
-        return JsonResult.getInstance().set("size", res.getTotalElements()).set("data", res.getContent());
+        return JsonResult.getInstance().set("size", res.getTotalElements()).set("data", resumeStoreTools.buildResumeStore(res.getContent()));
     }
 
     @AuthAnnotation(name = "小程序收藏简历", code = "MINI-C47", params = "{openid:'', id: 0}")
